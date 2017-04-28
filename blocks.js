@@ -36,6 +36,16 @@ XXXXXXXXXXXXXXXX
         return rgb;
     }
 
+    function getPowerup(token) {
+        let rand = Math.round(Math.random()*100)
+        if (rand > 90){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     function create(token, row, column){
         block = new PIXI.Graphics();
         let rgb = getColor(token);
@@ -47,6 +57,7 @@ XXXXXXXXXXXXXXXX
         block.y = height * row;
         block.type = token;
         block.lives = -1;
+        block.hasPowerup = getPowerup(token);
         if (token == 'X')
             block.lives = 1;
         if (token == 'R')

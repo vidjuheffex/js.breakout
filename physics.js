@@ -13,12 +13,6 @@ let physics = function(){
                 ball.x = ball.radius;
                 ball.vx = ball.vx * -1;
             }
-            /*
-            else if (ball.y + ball.radius >= viewer.getHeight()) {
-                ball.y = viewer.getHeight()-ball.radius;
-                ball.vy = ball.vy * -1;
-            }
-            */
         })
     }
 
@@ -72,6 +66,10 @@ let physics = function(){
                 if (block.type != 'B' && collision == true) {
                     block.lives -= 1;
                     if (block.lives == 0){
+                        if (block.hasPowerup == true){
+                            powerup = powerups.createPowerup(block.x + 32, block.y+16);
+                            game.getActivePowerups().addChild(powerup);
+                        }
                         game.getActiveBlocks().removeChild(block)
                     }
                 }
@@ -79,10 +77,19 @@ let physics = function(){
         })
     }
 
+    function checkPowerupCollision(){
+        game.getActivePowerups().children.forEach(function(powerup, index){
+            if (powerup.y+powerup.radius > viewer.getHeight()) {
+                game.getActivePowerups().removeChild(powerup)
+            }
+        })
+    }
+
     return {
         checkBoundaryCollision: checkBoundaryCollision,
         checkPaddleCollision: checkPaddleCollision,
-        checkBlockCollision: checkBlockCollision
+        checkBlockCollision: checkBlockCollision,
+        checkPowerupCollision: checkPowerupCollision
     }
 }()
 

@@ -1,9 +1,10 @@
 let game = function(){
-    let stage, activePlayer, activeBlocks, activeBalls;
+    let stage, activePlayer, activeBlocks, activeBalls, activePowerups;
 
     function getActivePlayer(){ return activePlayer; }
     function getActiveBalls(){ return activeBalls; }
     function getActiveBlocks(){ return activeBlocks; }
+    function getActivePowerups(){ return activePowerups; }
 
     //states
     function play (){
@@ -14,6 +15,10 @@ let game = function(){
         activeBalls.children.forEach(function (ball, i) {
             ball.x += ball.vx;
             ball.y += ball.vy;
+        });
+
+        activePowerups.children.forEach(function(powerup, i){
+            powerup.y += powerup.vy;
         });
 
         physics.checkBoundaryCollision();
@@ -42,6 +47,10 @@ let game = function(){
         blocks.loadBlocks(0, activeBlocks)
         stage.addChild(activeBlocks)
 
+        //Initialize Powerups
+        activePowerups = new PIXI.Container()
+        stage.addChild(activePowerups)
+
         //Initialize First Ball
         activeBalls = new PIXI.Container()
         ball = balls.create();
@@ -57,7 +66,8 @@ let game = function(){
         setup: setup,
         getActiveBalls: getActiveBalls,
         getActivePlayer: getActivePlayer,
-        getActiveBlocks: getActiveBlocks
+        getActiveBlocks: getActiveBlocks,
+        getActivePowerups: getActivePowerups
     }
 
 }()
